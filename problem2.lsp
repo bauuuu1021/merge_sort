@@ -1,31 +1,34 @@
-(defun set-nth4 (list n val)
-  (loop for i from 0 for j in list collect (if (= i n) val j)))
-
+;;;;set max input 99999
 (defun mergeSeq(numbers front mid end nCurr rCurr lCurr)
     (setf lSublist (subseq numbers front (+ 1 mid)))
     (setf rSublist (subseq numbers (+ 1 mid) (+ end 1)))
 
-    (setq nCurr front)
-    (setq lCurr front)
-    (setq rCurr (+ 1 mid))
-    
-    (IF  (< (nth lCurr lSublist) (nth rCurr rSublist))
-        (set-nth4 numbers nCurr (nth lCurr lSublist)) ;;(setq (nth nCurr numbers) (nth lCurr lSublist))
-    (set-nth4 numbers nCurr (nth rCurr rSublist)) ;;(setq (nth nCurr numbers) (nth rCurr rSublist))
-    )
+    (push 99999 (cdr (last lSublist)))
+    (push 99999 (cdr (last rSublist)))
 
-    (IF  (< (nth lCurr lSublist) (nth rCurr rSublist))
+    (setq nCurr front)
+    (setq lCurr 0)
+    (setq rCurr 0)
+
+    (loop for nCurr from front to end
+
+    do(IF  (< (nth lCurr lSublist) (nth rCurr rSublist))
+        (setf (nth nCurr numbers) (nth lCurr lSublist))
+    (setf (nth nCurr numbers) (nth rCurr rSublist))
+    )
+    
+    do(IF  (< (nth lCurr lSublist) (nth rCurr rSublist))
         (setq lCurr (+ 1 lCurr))
     (setq rCurr (+ 1 rCurr))
     )
 
-    (setq nCurr (+ 1 nCurr))
+)
 )
 
 (defun split (numbers front end)
 ;(format t "function list~{~A ~}~%  " (subseq numbers front (+ end 1)) )
 (setf x (subseq numbers front (+ end 1)))
-(format t "~{~A~}~%" x)
+;(format t "~{~A~}~%" x)
     ;;; if front >= end, return
     ( if ( or (> front end) (= front end) ) 
         (return-from split 0)
